@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="A local GPS cab tracker with a Delhi to Meerut driving simulation.">
+  <title>Cabline — Live GPS tracker</title>
+  <link rel="stylesheet" href="vendor/leaflet.css"><link rel="stylesheet" href="styles.css">
+  <script defer src="vendor/leaflet.js"></script><script defer src="app.js"></script>
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="/" aria-label="Cabline home">cabline<span>↗</span></a><span class="header-caption">Your journey, in view.</span><div class="header-right"><span class="local-dot"></span> LOCAL TRACKER <span class="avatar">C</span></div></header>
+  <main>
+    <aside class="panel">
+      <div class="eyebrow">VEHICLE TRACKING</div><h1>Every turn.<br>In real time.</h1><p class="intro">One cab. A clear view of the journey.</p>
+      <div class="tabs" role="group" aria-label="Tracking mode"><button id="simulationTab" class="selected" aria-pressed="true">Simulation</button><button id="liveTab" aria-pressed="false">Live GPS</button></div>
+      <section id="simulationPanel">
+        <div class="route-card"><div class="route-dots"><i></i><span></span><b></b></div><div class="places"><div><small>FROM</small><strong>Connaught Place, Delhi</strong></div><div><small>TO</small><strong>Central Meerut</strong></div></div><span class="route-arrow">↗</span></div>
+        <div class="trip-stats"><div><small>ROUTE DISTANCE</small><strong id="routeDistance">—</strong></div><div><small>TRIP AT 40 KM/H</small><strong id="routeDuration">—</strong></div></div>
+        <div class="section-label"><span>Trip playback</span><span id="progressText">0%</span></div>
+        <input id="seek" type="range" min="0" max="1000" value="0" aria-label="Seek through journey" disabled>
+        <div class="time-row"><span id="elapsed">00:00</span><span id="totalTime">—</span></div>
+        <div class="playback-row"><button id="play" class="primary" disabled>▶ Start journey</button><button id="reset" class="square" aria-label="Reset trip" disabled>↺</button></div>
+        <div class="rate-row"><label for="rate">Playback speed</label><select id="rate"><option value="1">1× · real time</option><option value="10">10×</option><option value="30" selected>30× · demo</option><option value="60">60×</option></select></div>
+        <p class="hint">Playback changes the viewing pace. The cab travels at a constant 40 km/h.</p>
+        <a class="download" href="data/delhi-meerut-40kmh.csv" download>↓ Download simulation CSV <span>↗</span></a>
+      </section>
+      <section id="livePanel" hidden>
+        <h2>Connect your GPS</h2><p class="hint">Connect a USB/serial GPS receiver, refresh the ports, then select your device.</p>
+        <label class="field-label" for="port">GPS serial port</label><div class="port-row"><select id="port"><option value="">Select a device</option></select><button id="refreshPorts" class="square" aria-label="Refresh serial ports">↻</button></div>
+        <label class="field-label" for="baud">Baud rate</label><select id="baud"><option>4800</option><option selected>9600</option><option>19200</option><option>38400</option><option>57600</option><option>115200</option></select>
+        <button id="connect" class="primary full">Connect GPS</button><button id="disconnect" class="secondary full">Disconnect GPS</button>
+        <p id="serialStatus" class="hint" role="status">Waiting for a device.</p>
+        <details><summary>Other ways to send GPS data</summary><p>Send JSON to <code>POST /api/gps</code> on this computer. Fields: <code>latitude</code>, <code>longitude</code>, optional <code>speedKph</code> and UTC <code>timestamp</code>.</p><p>Serial input supports NMEA RMC/GGA, JSON lines, and <code>latitude,longitude,speedKph</code>. See README for examples.</p></details>
+      </section>
+      <div class="panel-footer"><span>◉</span><p id="modeNote">Synthetic test drive · OSM road geometry<br>No traffic, stops, or recorded personal data.</p></div>
+    </aside>
+    <section class="map-area" aria-label="Vehicle tracking map">
+      <div id="map"></div>
+      <div class="map-top"><div class="map-label"><span class="status-dot" id="statusDot"></span><span id="status" role="status">Loading route…</span><span class="mode-badge" id="modeBadge">SIMULATION</span></div><button id="fit" class="map-button">↗ <span>Route overview</span></button></div>
+      <div id="notice" class="notice" role="alert" hidden></div>
+      <div class="map-actions"><button id="zoomIn" aria-label="Zoom in">+</button><button id="zoomOut" aria-label="Zoom out">−</button><button id="follow" aria-pressed="false" title="Follow vehicle" aria-label="Follow vehicle">◎</button></div>
+      <div class="telemetry"><div class="vehicle-line"><div class="car-mini">▰</div><div><strong>Cab 01</strong><small id="vehicleCaption">Delhi → Meerut</small></div><span id="vehicleState">READY</span></div><div class="readings"><div class="speed"><strong id="speed">—</strong><span>km/h</span><small id="speedLabel">VEHICLE SPEED</small></div><div class="coordinates"><div><small>LATITUDE</small><span id="latitude">—</span></div><div><small>LONGITUDE</small><span id="longitude">—</span></div></div></div><div class="telemetry-bottom"><span id="distanceTravelled">0.00 km travelled</span><span id="lastUpdate">Waiting to start</span></div></div>
+      <div class="map-credit">Map data © OpenStreetMap contributors · Route by OSRM</div>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,2 @@
+# Only needed for a GPS sensor connected by USB/serial. Simulation needs no packages.
+pyserial==3.5

@@ -1,0 +1,16 @@
+{
+  "title": "Delhi to Meerut \u2022 constant 40 km/h",
+  "origin": "Connaught Place, Delhi",
+  "destination": "Central Meerut",
+  "synthetic": true,
+  "speedKph": 40.0,
+  "sampleIntervalSeconds": 1,
+  "note": "Synthetic movement on an OSRM/OSM road route, not a recorded trip. Final interval may be shorter than one second. No traffic or stops.",
+  "distanceMeters": 76437.28519771654,
+  "durationSeconds": 6879.355667794489,
+  "rows": 6881,
+  "startTime": "2026-11-02T03:30:00+00:00",
+  "routeSource": "https://router.project-osrm.org/route/v1/driving/77.2167,28.6328;77.7064,28.9845?overview=full&geometries=geojson&steps=false",
+  "attribution": "\u00a9 OpenStreetMap contributors; routing by OSRM",
+  "routeFetchedOn": "2026-11-02"
+}
